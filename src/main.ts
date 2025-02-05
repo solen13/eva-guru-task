@@ -1,13 +1,13 @@
 import { createApp } from 'vue';
 import './assets/style.css';
 import App from './App.vue';
-
+import store from './store';
+import router from './router';
 import HighchartsVue from 'highcharts-vue';
 
 const app = createApp(App);
 
-// HighchartsVue'u Vue uygulamasına dahil et
 app.use(HighchartsVue);
-
-// Uygulamayı mount et
+app.use(store);
+app.use(router);
 app.mount('#app');

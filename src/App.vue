@@ -1,12 +1,14 @@
 <template>
   <div>
-    <highcharts class="hc" :options="chartOptions" ref="chart"></highcharts>
+    <router-view></router-view>
+    <!-- <auth-form :isRegister="true" @submit="handelInput" />
+    <highcharts class="hc" :options="chartOptions" ref="chart"></highcharts> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineComponent } from 'vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useStore } from 'vuex';
 
 const chartOptions = ref({
   chart: {
