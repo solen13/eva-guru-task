@@ -56,6 +56,7 @@
       :max-page="5"
       :current-page="currentPage"
       @update:currentPage="updateCurrentPage"
+      @click="handlePageClick"
     />
   </div>
 </template>
@@ -63,7 +64,6 @@
 <script setup lang="ts">
 import { defineProps, defineEmits } from 'vue';
 import pagination from '../../../components/pagination/pagination.vue';
-
 interface Product {
   sku: string;
   productName: string;
@@ -85,5 +85,13 @@ const emit = defineEmits(['update:currentPage']);
 
 const updateCurrentPage = (page: number) => {
   emit('update:currentPage', page);
+};
+
+const handlePageClick = (page: number) => {
+  if (props.onClickHandler) {
+    props.onClickHandler(page);
+  } else {
+    console.error('onClickHandler fonksiyonu bulunamadı!');
+  }
 };
 </script>
