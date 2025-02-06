@@ -7,19 +7,18 @@ import { useStore } from 'vuex';
 const routes = [
   { path: '/', component: Login },
   { path: '/register', component: Register },
-  { path: '/dashboard', component: Dashboard, meta: { requiresAuth: true } },
+  { path: '/dashboard', component: Dashboard },
 ];
-
+// ` meta: { requiresAuth: true }`,
 const router = createRouter({
   history: createWebHistory(),
   routes,
 });
 
-// Auth kontrolü
 router.beforeEach(async (to, from, next) => {
   const store = useStore();
   if (to.meta.requiresAuth && !store.state.auth.accessToken) {
-    await store.dispatch('refreshAccessToken');
+    await store.dispatch('auth/refreshAccessToken');
 
     if (!store.state.auth.accessToken) {
       next('/');

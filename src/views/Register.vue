@@ -16,6 +16,6 @@ const router = useRouter();
 
 const handelInput = (event) => {
   console.log(event);
-  store.dispatch('register', event); // Vuex action çağrılıyor
+  store.dispatch('auth/register', event); // Vuex action çağrılıyor
 };
 </script>

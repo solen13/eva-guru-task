@@ -82,7 +82,7 @@
         <p class="text-sm font-light text-gray-500 dark:text-gray-400">
           {{ isRegister ? ' Hesabınız varmı ?' : 'Hesabınız yokmu ?' }}
           <a
-            :href="isRegister ? '/' : '#/register'"
+            :href="isRegister ? '/' : '/register'"
             class="font-medium text-primary-600 hover:underline dark:text-primary-500"
           >
             {{ isRegister ? ' Giriş yap' : 'Hesap Oluşur' }}</a

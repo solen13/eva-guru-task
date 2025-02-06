@@ -14,7 +14,7 @@ const router = useRouter();
 const store = useStore();
 const handelInput = async (event) => {
   console.log('event', event);
-  await store.dispatch('login', event);
+  await store.dispatch('auth/login', event);
 };
 </script>
 
