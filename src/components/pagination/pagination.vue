@@ -16,7 +16,6 @@ interface Props {
   totalItems: number;
   itemsPerPage: number;
   maxPage?: number;
-  onClickHandler: (page: number) => void;
 }
 
 const props = defineProps<Props>();
@@ -27,8 +26,7 @@ const emit = defineEmits<{
 
 const handlePageClick = (page: number) => {
   if (page > 0) {
-    props.onClickHandler(page); // Parent fonksiyonunu çağır
-    emit('update:currentPage', page); // Parent'taki currentPage'i güncelle
+    emit('update:currentPage', page);
   }
 };
 </script>

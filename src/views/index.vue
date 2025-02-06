@@ -15,9 +15,9 @@
       :paginatedData="paginatedData"
       :selectedColumns="selectedColumns"
       :data="data"
-      :itemsPerPage="itemsPerPage"
-      :currentPage="currentPage"
-      :onClickHandler="onClickHandler"
+      :items-per-page="itemsPerPage"
+      :current-page="currentPage"
+      @update:currentPage="onPageChange"
     />
   </div>
 </template>
@@ -107,12 +107,12 @@ const fetchRefundRate = async (skuList: Product[]) => {
   }
 };
 
+const onPageChange = (page: number) => {
+  currentPage.value = page;
+};
+
 const paginatedData = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage;
   return data.value.slice(start, start + itemsPerPage);
 });
-
-const onClickHandler = (page: number) => {
-  currentPage.value = page;
-};
 </script>
