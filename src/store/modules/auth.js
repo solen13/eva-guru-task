@@ -1,5 +1,6 @@
 import axios from 'axios';
 import api from '../../plugins/axios';
+
 export default {
   namespaced: true,
   state: {
@@ -15,6 +16,7 @@ export default {
       state.accessToken = accessToken;
       state.refreshToken = refreshToken;
 
+      // Yedek olarak localStorage'a da kaydedelim
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
       localStorage.setItem('email', email);
@@ -23,6 +25,8 @@ export default {
       state.user = null;
       state.accessToken = null;
       state.refreshToken = null;
+
+      // localStorage'ı da temizle
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('email');
@@ -41,52 +45,52 @@ export default {
           RedirectUri: 'https://api.eva.guru',
         });
 
-        console.log('reponse', response);
-        console.log(response.data.Data.AccessToken);
+        if (!response.data.Data) {
+          throw new Error('Token alınamadı');
+        }
 
-        axios
-          .post(
-            'https://iapitest.eva.guru/user/user-information',
-            {
-              email: email,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${response.data.Data.AccessToken}`,
-              },
-            }
-          )
-          .then((responseUser) => {
-            commit('SET_TOKENS', {
-              accessToken: response.data.Data.AccessToken,
-              refreshToken: response.data.Data.RefreshToken,
-              email: responseUser.data.Data.user.email,
-            });
+        // Token'ları kaydet
+        commit('SET_TOKENS', {
+          accessToken: response.data.Data.AccessToken,
+          refreshToken: response.data.Data.RefreshToken,
+          email: email,
+        });
 
-            commit('SET_USER', responseUser.data.Data.user);
+        // Kullanıcı bilgilerini al
+        try {
+          const userResponse = await api.post('/user/user-information', {
+            email: email,
           });
+          console.log(userResponse);
+
+          if (userResponse.data.Data && userResponse.data.Data.user) {
+            commit('SET_USER', userResponse.data.Data.user);
+            return true;
+          }
+        } catch (userError) {
+          console.error('Kullanıcı bilgileri alınamadı:', userError);
+        }
+        return false;
       } catch (error) {
-        console.error('Login failed', error);
+        console.error('Login failed:', error);
+        commit('LOGOUT');
+        return false;
       }
     },
 
     async refreshAccessToken({ commit, state }) {
       try {
-        if (!state.refreshToken) return;
-
-        const response = await axios.post(
-          'https://iapitest.eva.guru/user/user-information',
-          {
-            refreshToken: state.refreshToken,
-          }
-        );
-
-        commit('SET_TOKENS', {
-          accessToken: response.data.Data.accessToken,
-          refreshToken: state.refreshToken, // Refresh token değişmiyor genelde
+        const email = localStorage.getItem('email');
+        const userResponse = await api.post('/user/user-information', {
+          email: email,
         });
-      } catch (error) {
-        commit('LOGOUT');
+
+        if (userResponse.data.Data && userResponse.data.Data.user) {
+          commit('SET_USER', userResponse.data.Data.user);
+          return true;
+        }
+      } catch (userError) {
+        console.error('Kullanıcı bilgileri alınamadı:', userError);
       }
     },
 

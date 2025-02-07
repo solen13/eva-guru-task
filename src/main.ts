@@ -6,6 +6,10 @@ import router from './router';
 import HighchartsVue from 'highcharts-vue';
 import VueAwesomePaginate from 'vue-awesome-paginate';
 import 'vue-awesome-paginate/dist/style.css';
+import { setupRefreshTokenPlugin } from './plugins/refreshToken';
+
+// Token yenileme plugin'ini başlat
+setupRefreshTokenPlugin();
 
 const app = createApp(App);
 

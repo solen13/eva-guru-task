@@ -48,7 +48,10 @@ const itemsPerPage = 10;
 
 onMounted(async () => {
   await fetchProductList();
+  const state = store.state.auth.user;
+  console.log('user');
 });
+const userInfo = computed(() => store.state.auth?.user.store[0] || null);
 
 watch(selectedDays, async (newValues) => {
   await fetchProductList();
@@ -67,9 +70,9 @@ const handleColumnClick = async (event: { date: string[] }) => {
       customDateData: null,
       day: selectedDays.value,
       excludeYoYData: true,
-      marketplace: 'Amazon.com',
+      marketplace: userInfo.value.marketplaceName,
       requestStatus: 0,
-      sellerId: 'A2SL13ERIMQO6E',
+      sellerId: userInfo.value.storeId,
       isDaysCompare: event.date.length > 1 ? 1 : 0,
       pageNumber: 1,
       pageSize: 30,
@@ -95,8 +98,8 @@ const handleColumnClick = async (event: { date: string[] }) => {
 const fetchRefundRate = async (skuList: Product[]) => {
   try {
     const response = await api.post('/data/get-sku-refund-rate', {
-      marketplace: 'Amazon.com',
-      sellerId: 'A2SL13ERIMQO6E',
+      marketplace: userInfo.value.marketplaceName,
+      sellerId: userInfo.value.storeId,
       skuList,
       requestedDay: 0,
     });

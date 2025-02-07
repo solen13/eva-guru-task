@@ -4,7 +4,6 @@ export default {
   namespaced: true,
   state: {
     product: null,
-
     currency: null,
   },
   mutations: {
@@ -16,7 +15,7 @@ export default {
     },
   },
   actions: {
-    async productList({ commit, state }, days) {
+    async productList({ commit, state }, days, sellerId) {
       try {
         const response = await api.post('/data/daily-sales-overview', {
           customDateData: null,

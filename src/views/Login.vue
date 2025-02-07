@@ -13,8 +13,16 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const store = useStore();
 const handelInput = async (event) => {
-  console.log('event', event);
-  await store.dispatch('auth/login', event);
+  try {
+    const success = await store.dispatch('auth/login', event);
+    if (success) {
+      router.push('/dashboard');
+    } else {
+      console.error('Login başarısız');
+    }
+  } catch (error) {
+    console.error('Login hatası:', error);
+  }
 };
 </script>
 
