@@ -14,8 +14,7 @@ import { useRouter } from 'vue-router';
 const store = useStore();
 const router = useRouter();
 
-const handelInput = (event) => {
-  console.log(event);
-  store.dispatch('auth/register', event); // Vuex action çağrılıyor
+const handelInput = (event: any) => {
+  store.dispatch('auth/register', event);
 };
 </script>

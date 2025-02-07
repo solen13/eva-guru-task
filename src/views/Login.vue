@@ -12,7 +12,7 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const store = useStore();
-const handelInput = async (event) => {
+const handelInput = async (event: any) => {
   try {
     const success = await store.dispatch('auth/login', event);
     if (success) {
