@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="flex justify-end">
-      <label for="days">Tarih Filtresi:</label>
       <select id="days" v-model="selectedDays">
         <option :value="60">Last 60 Days</option>
         <option :value="30">Last 30 Days</option>
@@ -48,8 +47,6 @@ const itemsPerPage = 10;
 
 onMounted(async () => {
   await fetchProductList();
-  const state = store.state.auth.user;
-  console.log('user');
 });
 const userInfo = computed(() => store.state.auth?.user.store[0] || null);
 
