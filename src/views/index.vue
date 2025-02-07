@@ -16,8 +16,8 @@
       :selectedColumns="selectedColumns"
       :data="data"
       :itemsPerPage="itemsPerPage"
-      :currentPage="currentPage"
-      :onClickHandler="onClickHandler"
+      :current-page="currentPage"
+      @update:currentPage="onClickHandler"
     />
   </div>
 </template>

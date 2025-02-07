@@ -56,7 +56,6 @@
       :max-page="5"
       :current-page="currentPage"
       @update:currentPage="updateCurrentPage"
-      @click="handlePageClick"
     />
   </div>
 </template>
@@ -85,13 +84,5 @@ const emit = defineEmits(['update:currentPage']);
 
 const updateCurrentPage = (page: number) => {
   emit('update:currentPage', page);
-};
-
-const handlePageClick = (page: number) => {
-  if (props.onClickHandler) {
-    props.onClickHandler(page);
-  } else {
-    console.error('onClickHandler fonksiyonu bulunamadı!');
-  }
 };
 </script>
