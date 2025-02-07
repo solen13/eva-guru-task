@@ -24,6 +24,12 @@
     <div v-else>
       <h3 class="font-bold">
         {{ userInfo.firstName }} {{ userInfo.lastName }}
+        <button
+          class="bg-red-600 rounded-lg px-2 py-1 text-white ml-10"
+          @click="logout"
+        >
+          logout
+        </button>
       </h3>
     </div>
   </nav>
@@ -32,6 +38,17 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
+
 const store = useStore();
+
 const userInfo = computed(() => store.state.auth?.user || null);
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
+const logout = () => {
+  store.dispatch('auth/logout');
+  setTimeout(() => {
+    router.push('/');
+  }, 300);
+};
 </script>

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import api from '../../plugins/axios';
 
 export default {
@@ -36,8 +35,8 @@ export default {
     async login({ commit }, { email, password }) {
       try {
         const response = await api.post('/oauth/token', {
-          Email: 'homework@eva.guru',
-          Password: 'Homeworkeva1**',
+          Email: email,
+          Password: password,
           GrantType: 'password',
           Scope: 'amazon_data',
           ClientId: 'C0001',
@@ -94,7 +93,8 @@ export default {
       }
     },
 
-    logout({ commit }) {
+    async logout({ commit }) {
+      await api.post('/user/logout', {});
       commit('LOGOUT');
     },
   },
